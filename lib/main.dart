@@ -33,16 +33,25 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       appBar: AppBar(
         title: Text('Question 1'),
       ),
-      body: ListView(
-          children: [
-            Text(question['text']),
-            _choiceRadioListTile('41'),
-            _choiceRadioListTile('42'),
-            _choiceRadioListTile('43'),
-            _choiceRadioListTile('44'),
-          ]
+      body: Column(
+        children: [
+          Text(question['text']),
+          Column(
+            children: _choices(),
+          ),
+        ],
       ),
     );
+  }
+
+  List<Widget> _choices() {
+    List<Widget> choicesWidgets = [];
+
+    for (final choice in question['choices']) {
+      choicesWidgets.add(_choiceRadioListTile(choice));
+    }
+
+    return choicesWidgets;
   }
 
   Widget _choiceRadioListTile(String choice) {
@@ -50,11 +59,13 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       title: Text(choice),
       value: choice,
       groupValue: _selectedChoice,
-      onChanged: (String value) {
-        setState(() => {
-          _selectedChoice = value
-        });
-      },
+      onChanged: _setSelectedChoice,
     );
+  }
+
+  void _setSelectedChoice(String value) {
+    setState(() => {
+      _selectedChoice = value
+    });
   }
 }
