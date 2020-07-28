@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Choices extends StatefulWidget {
+class Choices extends StatelessWidget {
+  final String _selectedChoice;
   final List<String> _choices;
+  final Function _setSelectedChoice;
 
-  Choices(this._choices);
-
-  @override
-  State<StatefulWidget> createState() => _ChoicesState(_choices);
-}
-
-class _ChoicesState extends State<Choices>{
-  String _selectedChoice = "";
-
-  List<String> _choices;
-
-  _ChoicesState(this._choices);
+  Choices(this._choices, this._selectedChoice, this._setSelectedChoice);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +14,6 @@ class _ChoicesState extends State<Choices>{
         Column(
           children: _choicesWidgets(),
         ),
-        Text(_selectedChoice),
       ]
     );
   }
@@ -40,10 +30,6 @@ class _ChoicesState extends State<Choices>{
 
   Widget _choiceRadioListTile(String choice) {
     return ChoiceWidget(choice, _selectedChoice, _setSelectedChoice);
-  }
-
-  void _setSelectedChoice(String value) {
-    setState(() => {_selectedChoice = value});
   }
 }
 

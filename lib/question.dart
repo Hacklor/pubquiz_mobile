@@ -1,13 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:pubquiz_mobile/results.dart';
 
 import 'choices.dart';
 
-class Question extends StatelessWidget {
-  final question = {
+class Question extends StatefulWidget {
+  final _question = {
     'text': 'What is the answer to life, the universe and everything?',
     'choices': ['40', '41', '42', '43'],
     'answer': '42'
   };
+
+  @override
+  State<StatefulWidget> createState() => _QuestionState(_question);
+}
+
+class _QuestionState extends State<Question> {
+  Map<String, Object> _question;
+  String _selectedChoice = "";
+
+  _QuestionState(this._question);
+
+  void _setSelectedChoice(String value) {
+    setState(() => {_selectedChoice = value});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +32,21 @@ class Question extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text(question['text']),
-          Choices(question['choices']),
+          Text(_question['text']),
+          Choices(_question['choices'], _selectedChoice, _setSelectedChoice),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _question['selectedChoice'] = _selectedChoice;
+
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Results(_question))
+          );
+        },
+        tooltip: 'Next',
+        child: const Icon(Icons.arrow_forward),
       ),
     );
   }
