@@ -3,24 +3,31 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pubquiz_mobile/question.dart';
 
 void main() {
-  testWidgets('shows the question', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Question()));
+  final question = {
+    'text': 'question 1',
+    'choices': ['a1', 'a2'],
+    'answer': 'a2'
+  };
 
-    expect(find.text('What is the answer to life, the universe and everything?'), findsOneWidget);
+  testWidgets('shows the question', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Question(question)));
+
+    expect(find.text('question 1'), findsOneWidget);
   });
 
   testWidgets('shows the choices', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Question()));
+    await tester.pumpWidget(MaterialApp(home: Question(question)));
 
-    expect(find.text('40'), findsOneWidget);
-    expect(find.text('41'), findsOneWidget);
-    expect(find.text('42'), findsOneWidget);
-    expect(find.text('43'), findsOneWidget);
+    expect(find.text('a1'), findsOneWidget);
+    expect(find.text('a2'), findsOneWidget);
   });
 
-  testWidgets('selects choice', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Question()));
+  testWidgets('saves selected choice', (WidgetTester tester) async {
+    await tester.pumpWidget(MaterialApp(home: Question(question)));
 
-    await tester.tap(find.text('42'));
+    await tester.tap(find.text('a1'));
+    await tester.tap(find.byTooltip('Next'));
+
+    expect(question['selectedChoice'], matches('a1'));
   });
 }

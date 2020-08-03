@@ -4,11 +4,9 @@ import 'package:pubquiz_mobile/results.dart';
 import 'choices.dart';
 
 class Question extends StatefulWidget {
-  final _question = {
-    'text': 'What is the answer to life, the universe and everything?',
-    'choices': ['40', '41', '42', '43'],
-    'answer': '42'
-  };
+  final Map<String, Object> _question;
+
+  Question(this._question);
 
   @override
   State<StatefulWidget> createState() => _QuestionState(_question);
